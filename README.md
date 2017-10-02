@@ -1,4 +1,6 @@
 # rifftool
+==========
+[![Build Status](https://travis-ci.org/willkirkby/rifftool.svg?branch=master)](https://travis-ci.org/willkirkby/rifftool) 
 
 **rifftool** takes [RIFF](https://en.wikipedia.org/wiki/Resource_Interchange_File_Format)-formated files and dumps out the block structure in human-readable form.
 
