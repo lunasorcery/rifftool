@@ -1,7 +1,7 @@
 all: rifftool
 
-rifftool: main.cpp
-	clang main.cpp -o rifftool -Wall -Wextra -lstdc++ -std=c++11 -O3
+rifftool: main.c
+	clang main.c -o rifftool -Wall -Wextra -std=c11 -O3 -s
 
 install: rifftool
 	cp rifftool /usr/local/bin/rifftool

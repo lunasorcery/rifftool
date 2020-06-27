@@ -1,7 +1,8 @@
-#include <cstdlib>
-#include <cstdio>
-#include <cstdint>
-#include <cstring>
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
 #include <getopt.h>
 
 bool g_verbose = false;
@@ -30,7 +31,7 @@ void printIndent(int indent) {
 	}
 }
 
-int dumpChunk(FILE* fh, int indent = 0) {
+int dumpChunk(FILE* fh, int indent) {
 	size_t offset = ftell(fh);
 	char chunkId[5];
 	fread(chunkId, 1, 4, fh);
@@ -63,7 +64,7 @@ int dumpChunk(FILE* fh, int indent = 0) {
 		}
 	} else {
 		if (g_verbose) {
-			uint8_t* buffer = new uint8_t[paddedChunkLength];
+			uint8_t* buffer = malloc(paddedChunkLength);
 			fread(buffer, 1, paddedChunkLength, fh);
 			for (int i = 0; i < paddedChunkLength; i += 16){
 				printOffset(dataStart + i);
@@ -89,7 +90,7 @@ int dumpChunk(FILE* fh, int indent = 0) {
 				}
 				printf("|\n");
 			}
-			delete[] buffer;
+			free(buffer);
 		} else {
 			fseek(fh, paddedChunkLength, SEEK_CUR);
 		}
@@ -103,7 +104,7 @@ void dumpRiffFromFile(const char* filepath) {
 		printf("failed to open %s\n", filepath);
 		return;
 	}
-	dumpChunk(fh);
+	dumpChunk(fh, 0);
 	fclose(fh);
 }
 
