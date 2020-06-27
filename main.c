@@ -5,9 +5,9 @@
 #include <string.h>
 #include <getopt.h>
 
-bool g_verbose = false;
+static bool g_verbose = false;
 
-bool isAscii(const char* str) {
+static bool isAscii(const char* str) {
 	while (*str) {
 		if (*str < 0x20 || *str > 0x7e) {
 			return false;
@@ -17,7 +17,7 @@ bool isAscii(const char* str) {
 	return true;
 }
 
-void printOffset(size_t offset) {
+static void printOffset(size_t offset) {
 	if (sizeof(size_t) <= 4) {
 		printf("0x%08lx: ", offset);
 	} else {
@@ -25,13 +25,13 @@ void printOffset(size_t offset) {
 	}
 }
 
-void printIndent(int indent) {
+static void printIndent(int indent) {
 	for (; indent; --indent) {
 		printf(" ");
 	}
 }
 
-int dumpChunk(FILE* fh, int indent) {
+static int dumpChunk(FILE* fh, int indent) {
 	size_t offset = ftell(fh);
 	char chunkId[5];
 	fread(chunkId, 1, 4, fh);
@@ -98,7 +98,7 @@ int dumpChunk(FILE* fh, int indent) {
 	return 0;
 }
 
-void dumpRiffFromFile(const char* filepath) {
+static void dumpRiffFromFile(const char* filepath) {
 	FILE* fh = fopen(filepath, "rb");
 	if (!fh) {
 		printf("failed to open %s\n", filepath);
@@ -108,7 +108,7 @@ void dumpRiffFromFile(const char* filepath) {
 	fclose(fh);
 }
 
-void parseCommandLine(int argc, char** argv) {
+static void parseCommandLine(int argc, char** argv) {
 	while (1) {
 		static struct option long_options[] = {
 			{ "verbose", no_argument, 0, 'v' },
